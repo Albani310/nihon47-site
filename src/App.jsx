@@ -20,11 +20,11 @@ export default function Nihon47() {
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
             {/* Wordmark */}
             <div className="relative inline-flex items-center gap-2">
-              <span className="text-xl tracking-[0.2em] font-semibold">NIHON</span>
-              {/* Raised 47 */}
-              <span className="-mt-3 text-sm tracking-[0.2em]">47</span>
-              {/* Small 日本 */}
-              <span className="text-xs ml-2 opacity-80">日本</span>
+             <img
+               src="/main-logo.png"
+              alt="Nihon47 logo"
+              className="h-10 w-auto object-contain"
+            />
             </div>
           </motion.div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
