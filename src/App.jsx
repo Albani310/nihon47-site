@@ -23,7 +23,7 @@ export default function Nihon47() {
              <img
                src="/main-logo.png"
               alt="Nihon47 logo"
-              className="h-10 w-auto object-contain"
+              className="h-14 w-auto object-contain"
             />
             </div>
           </motion.div>
