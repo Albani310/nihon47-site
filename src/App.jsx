@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, Instagram, ShoppingBag } from "lucide-react";
+import { useEffect } from "react";
+
 
 // Color tokens
 const colors = {
@@ -12,63 +14,110 @@ const colors = {
 };
 
 export default function Nihon47() {
+
+useEffect(() => {
+  const bg = document.getElementById("parallax-bg");
+  let currentOffset = 0;
+  let currentScale = 1;
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const isMobile = window.innerWidth < 768;
+
+    const targetOffset = scrollY * (isMobile ? 0.1 : 0.25);
+    const targetScale = 1 + scrollY * (isMobile ? 0.0001 : 0.0002);
+
+    const lerp = (a, b, n) => a + (b - a) * n;
+
+    const animate = () => {
+      // Smoothly approach target values
+      currentOffset = lerp(currentOffset, targetOffset, 0.07);
+      currentScale = lerp(currentScale, targetScale, 0.05);
+
+      if (bg) {
+        bg.style.transform = `translateY(${currentOffset}px) scale(${currentScale})`;
+      }
+
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+
+
   return (
     <div className="min-h-screen bg-[#0B0B0B] text-[#FAF7F2] font-sans">
-      {/* NAV */}
-      <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-[#0B0B0B]/70 bg-[#0B0B0B]/70 border-b border-white/10">
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
-            {/* Wordmark */}
-            <div className="relative inline-flex items-center gap-2">
-             <img
-               src="/main-logo.png"
-              alt="Nihon47 logo"
-              className="h-16 w-auto object-contain"
-            />
-            </div>
-          </motion.div>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#story" className="hover:opacity-80">Story</a>
-            <a href="#philosophy" className="hover:opacity-80">Philosophy</a>
-            <a href="#collection" className="hover:opacity-80">First Light</a>
-            <a href="#newsletter" className="hover:opacity-80 flex items-center gap-2"><Mail className="w-4 h-4"/>Join</a>
-          </nav>
-        </div>
-      </header>
+     {/* NAVBAR */}
+<header className="fixed top-0 left-0 w-full z-40 backdrop-blur-sm bg-black/10 border-b border-white/10">
+  <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+    <div className="flex items-center gap-3">
+      <img
+        src="/main-logo.png"
+        alt="Nihon47 logo"
+        className="h-10 md:h-12 w-auto object-contain transition-opacity duration-500"
+      />
+    </div>
+    <nav className="hidden md:flex items-center gap-6 text-sm">
+      <a href="#story" className="hover:opacity-80">Story</a>
+      <a href="#philosophy" className="hover:opacity-80">Philosophy</a>
+      <a href="#collection" className="hover:opacity-80">First Light</a>
+      <a href="#newsletter" className="hover:opacity-80 flex items-center gap-2">
+        <Mail className="w-4 h-4" /> Join
+      </a>
+    </nav>
+  </div>
+</header>
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        {/* Offset gradient sun */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
-        >
-          <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[70vmin] h-[70vmin] rounded-full"
-               style={{
-                 background: `radial-gradient(circle at 50% 50%, ${colors.sunRed} 0%, rgba(225,6,0,0.6) 40%, rgba(225,6,0,0.25) 65%, transparent 70%)`
-               }} />
-        </motion.div>
+{/* HERO SECTION */}
+<section
+  className="relative text-center h-[100vh] flex flex-col items-center justify-center overflow-hidden pt-[64px] md:pt-[80px]"
+>
+  {/* Parallax background */}
+  <div
+    id="parallax-bg"
+    className="absolute inset-0 will-change-transform"
+    style={{
+      backgroundImage: "url('/main-background.jpg')",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      transformOrigin: "center",
+      transition: "transform 0.2s ease-out",
+      filter: "blur(2px) brightness(0.8)",
+    }}
+  ></div>
 
-        <div className="mx-auto max-w-6xl px-4 pt-24 pb-28 relative">
-          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-semibold tracking-tight">
-            Wear the cities of Japan.
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mt-4 text-base md:text-lg text-white/80 max-w-2xl">
-            Minimal streetwear inspired by the 47 prefectures — where culture meets precision.
-          </motion.p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#collection" className="inline-flex items-center gap-2 bg-white text-[#0B0B0B] px-5 py-3 rounded-2xl text-sm font-medium hover:opacity-90">
-              Explore the Collection <ArrowRight className="w-4 h-4"/>
-            </a>
-            <a href="#story" className="inline-flex items-center gap-2 border border-white/20 px-5 py-3 rounded-2xl text-sm font-medium hover:border-white/40">
-              Read the Story
-            </a>
-          </div>
-        </div>
-      </section>
+  {/* Top overlay for readability */}
+  <div className="absolute inset-0 bg-black/40"></div>
+
+  {/* Bottom fade gradient */}
+  <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/60 to-transparent"></div>
+
+  {/* Content */}
+  <div className="relative z-10 text-white px-4">
+    <h1 className="text-4xl md:text-5xl font-bold opacity-0 animate-fade-in [animation-delay:0.8s]">
+      Wear the cities of Japan.
+    </h1>
+    <p className="text-lg md:text-xl text-gray-300 mt-6 opacity-0 animate-fade-in [animation-delay:1.6s]">
+      Minimal streetwear inspired by the 47 prefectures — where culture meets precision.
+    </p>
+    <div className="flex flex-wrap justify-center gap-4 mt-10 opacity-0 animate-fade-in [animation-delay:2.4s]">
+      <button className="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-200 transition duration-300">
+        Explore the Collection →
+      </button>
+      <button className="bg-transparent border border-gray-400 text-gray-200 px-6 py-2 rounded-full hover:bg-gray-700 transition duration-300">
+        Read the Story →
+      </button>
+    </div>
+  </div>
+</section>
+
+
 
       {/* STORY */}
       <section id="story" className="mx-auto max-w-6xl px-4 py-20">
